@@ -1,0 +1,59 @@
+<script>
+let caps = 0;
+let capsPerClick = 1;
+
+let upgradeCost = 25;
+
+let scavengers = 0;
+let scavengerCost = 50;
+
+function scavenge() {
+    caps += capsPerClick;
+
+    const clickSound = document.getElementById("clickSound");
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    update();
+}
+
+function upgrade() {
+    if (caps >= upgradeCost) {
+        caps -= upgradeCost;
+        capsPerClick++;
+
+        upgradeCost = Math.floor(upgradeCost * 1.5);
+
+        const upgradeSound = document.getElementById("upgradeSound");
+        upgradeSound.currentTime = 0;
+        upgradeSound.play();
+
+        update();
+    }
+}
+
+function buyScavenger() {
+    if (caps >= scavengerCost) {
+        caps -= scavengerCost;
+        scavengers++;
+
+        scavengerCost = Math.floor(scavengerCost * 1.7);
+
+        update();
+    }
+}
+
+/* Passive income */
+setInterval(() => {
+    caps += scavengers;
+    update();
+}, 1000);
+
+function update() {
+    document.getElementById("caps").innerText = "CAPS: " + Math.floor(caps);
+    document.getElementById("cpc").innerText = "CAPS / TAP: " + capsPerClick;
+    document.getElementById("cost").innerText = upgradeCost;
+}
+
+update();
+</script>
